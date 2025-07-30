@@ -44,10 +44,10 @@ class Student:
     def __le__(self, other):
         if not isinstance(other, Student):
             return NotImplemented
-        return self.get_average_grade() > other.get_average_grade()
+        return self.get_average_grade() <= other.get_average_grade()
 
     def rate_lecture(self, lecturer, course, grade):
-        if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached:
+        if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached and course in self.courses_in_progress:
             if course in lecturer.grades:
                 lecturer.grades[course] += [grade]
             else:
@@ -103,9 +103,9 @@ class Lecturer(Mentor):
         return self.get_average_grade() < other.get_average_grade()
 
     def __le__(self, other):
-        if not isinstance(other, Lecturer):
+        if not isinstance(other, Student):
             return NotImplemented
-        return self.get_average_grade() > other.get_average_grade()
+        return self.get_average_grade() <= other.get_average_grade()
 
     def get_average_grade(self)-> float:
         all_grades = []
